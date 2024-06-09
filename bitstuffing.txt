@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<string.h>
+
+int main() {
+    int a[20], b[30], i, j, k, count, n;
+    
+    // Prompt the user to enter the length of the frame
+    printf("Enter Frame length :");
+    scanf("%d", &n);
+
+    // Prompt the user to enter the input frame consisting of 0's and 1's only
+    printf("Enter input frame (0's & 1's only): ");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    // Initialize counters
+    i = 0;
+    count = 1;  // Initialize the count of consecutive 1's
+    j = 0;      // Index for the output array b
+
+    // Loop through the input frame
+    while(i < n) {
+        if(a[i] == 1) {  // Check if the current bit is 1
+            b[j] = a[i]; // Copy the bit to the output frame
+            for(k = i + 1; a[k] == 1 && k < n && count < 5; k++) {
+                j++;
+                b[j] = a[k]; // Continue copying the bits
+                count++;     // Increment the count of consecutive 1's
+            }
+            if(count == 5) {
+                j++;
+                b[j] = 0;   // Insert a 0 after 5 consecutive 1's
+            }
+            i = k;  // Move the index to the next bit after the sequence of 1's
+        } else {
+            b[j] = a[i];  // Copy the bit to the output frame
+        }
+        i++;
+        j++;
+	count = 1;  // Reset the count of consecutive 1's
+	}
+
+    // Print the stuffed frame
+    printf("After stuffing the frame is:");
+    printf("01111110");  // Append 01111110 at the beginning of the data
+    for(i = 0; i < j; i++) {
+        printf("%d", b[i]);  // Print the stuffed frame
+    }
+    printf("01111110");  // Append 01111110 at the end of the data
+
+    return 0;
+}
